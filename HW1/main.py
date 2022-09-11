@@ -19,7 +19,7 @@ def create_con(hostname, username, userpw, dbname):
     return connection
 
 
-conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com:3306', 'admin', 'admin123', 'CIS3368fall')
+conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
 cursor = conn.cursor(dictionary=True)
 sql = 'select * from users'
 cursor.execute(sql)
