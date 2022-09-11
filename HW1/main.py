@@ -17,3 +17,12 @@ def create_con(hostname, username, userpw, dbname):
     except Error as e:
         print(f'the error {e} occurred')
     return connection
+
+
+conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com:3306', 'admin', 'admin123', 'CIS3368fall')
+cursor = conn.cursor(dictionary=True)
+sql = 'select * from users'
+cursor.execute(sql)
+rows = cursor.fetchall()
+for user in rows:
+    print(user)
