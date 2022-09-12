@@ -21,6 +21,7 @@ def create_con(hostname, username, userpw, dbname):
         print(f'the error {e} occurred')
     return connection
 
+
 def display_menu():
     print("MENU")
     print("a - Add travel log")
@@ -32,8 +33,19 @@ def display_menu():
     user_select = input("Please select from MENU:\n")
     return user_select
 
+
 def execute_menu(user_input):
-    if user_input == "o":
+    if user_input == "a":
+        # fname = input("Please enter first name:\n")
+        # lname = input("Please enter last name:\n")
+        # user_email = input("OPTIONAL: Please enter email name:\n")
+        conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
+        cursor = conn.cursor()
+        sql = 'insert into users (firstname, lastname, email) values ("John", "Doe", "jd@me.com")'
+        cursor.execute(sql)
+        conn.commit()
+        display_menu()
+    elif user_input == "o":
         conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
         cursor = conn.cursor(dictionary=True)
         sql = 'select * from users'
@@ -41,11 +53,14 @@ def execute_menu(user_input):
         rows = cursor.fetchall()
         for user in rows:
             print(user)
+    elif user_input == 'q':
+        quit()
 
 
-user_input = display_menu()
-execute_menu(user_input)
+def main():
+    user_input = display_menu()
+    execute_menu(user_input)
+    main()
 
 
-
-
+main()
