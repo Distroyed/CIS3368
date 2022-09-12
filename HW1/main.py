@@ -36,43 +36,32 @@ def display_menu():
 
 def execute_menu(user_input):
     if user_input == "a":
-        del_fname = input("Please enter first name:\n")
-        del_lname = input("Please enter last name:\n")
-        del_user_email = input("OPTIONAL: Please enter email name:\n")
+        year = input("Please enter year (YYYY format):\n")
+        comment = input("Please enter comment (256 max char limit):\n")
+        revisit = input("Please enter revisit (256 max char limit):\n")
         conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
         cursor = conn.cursor()
-        sql = 'insert into users (firstname, lastname, email) values (%s, %s, %s)'
-        data = (del_fname, del_lname, del_user_email)
+        sql = 'insert into log (year, comment, revisit) values (%s, %s, %s)'
+        data = (year, comment, revisit)
         cursor.execute(sql, data)
         conn.commit()
         conn.close()
         display_menu()
     elif user_input == "d":
-        fname = input("Please enter first name:\n")
-        lname = input("Please enter last name:\n")
-        user_email = input("OPTIONAL: Please enter email name:\n")
-        conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
-        cursor = conn.cursor()
-        sql = 'select * from users'
-        cursor.execute(sql)
-        sql1 = 'insert into users (firstname, lastname, email) values (%s, %s, %s)'
-        data = (fname, lname, user_email)
-        cursor.execute(sql1, data)
-        conn.commit()
-        conn.close()
         display_menu()
     elif user_input == "o":
         conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
         cursor = conn.cursor(dictionary=True)
-        sql = 'select * from users'
+        sql = 'select * from log'
         cursor.execute(sql)
         rows = cursor.fetchall()
-        for user in rows:
-            print(user)
+        for comment in rows:
+            print(comment)
         conn.close()
-    elif user_input == 'q':
+    elif user_input == "s":
+        main()
+    elif user_input == "q":
         quit()
-
 
 
 def main():
