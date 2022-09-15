@@ -34,39 +34,58 @@ def display_menu():
     return user_select
 
 
-def execute_menu(user_input):
-    if user_input == "a":
-        year = input("Please enter year (YYYY format):\n")
-        comment = input("Please enter comment (256 max char limit):\n")
-        revisit = input("Please enter revisit (256 max char limit):\n")
-        conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
-        cursor = conn.cursor()
-        sql = 'insert into log (year, comment, revisit) values (%s, %s, %s)'
-        data = (year, comment, revisit)
-        cursor.execute(sql, data)
-        conn.commit()
-        conn.close()
-        display_menu()
-    elif user_input == "d":
-        display_menu()
-    elif user_input == "o":
-        conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
-        cursor = conn.cursor(dictionary=True)
-        sql = 'select * from log'
-        cursor.execute(sql)
-        rows = cursor.fetchall()
-        for comment in rows:
-            print(comment)
-        conn.close()
-    elif user_input == "s":
-        main()
-    elif user_input == "q":
+def execute_select(user_select):
+    if user_select == "a":
+        add_entry()
+    elif user_select == "d":
+        delete_entry()
+    elif user_select == "u":
+        update_entry()
+    elif user_select == "o":
+        output_log()
+    elif user_select == "s":
+        save_log()
+    elif user_select == "q":
         quit()
 
 
+def add_entry():
+    year = input("Please enter year (YYYY format):\n")
+    comment = input("Please enter comment (256 max char limit):\n")
+    revisit = input("Please enter revisit (256 max char limit):\n")
+    count += 1
+    my_dict = {'id': count, 'year': year, 'comment': comment, 'revisit': revisit}
+    print(my_dict)
+    return my_dict, count
+
+
+def delete_entry():
+    display_menu()
+
+
+def update_entry():
+    display_menu()
+
+
+def output_log():
+    display_menu()
+
+
+def save_log():
+    conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
+    cursor = conn.cursor()
+    columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in my_dict.keys())
+    rows = ', '.join("'" + str(x).replace('/', '_') + "'" for x in my_dict.values())
+    sql = 'insert into %s (%s) values (%s);'("log", columns, rows)
+    cursor.execute(sql)
+    conn.commit()
+    conn.close()
+    main()
+
+
 def main():
-    user_input = display_menu()
-    execute_menu(user_input)
+    user_select = display_menu()
+    execute_select(user_select)
     main()
 
 
