@@ -34,59 +34,53 @@ def display_menu():
     return user_select
 
 
-def execute_select(user_select):
+def main(my_dict, count):
+    user_select = display_menu()
     if user_select == "a":
-        add_entry()
+        year = input("Please enter year (YYYY format):\n")
+        comment = input("Please enter comment (256 max char limit):\n")
+        revisit = input("Please enter revisit (256 max char limit):\n")
+        count += 1
+        if 1 in my_dict.keys():
+            my_dict2 = {
+                count: 'id',
+                year: 'year',
+                comment: 'comment',
+                revisit: 'revisit'
+            }
+            my_dict.update(my_dict2)
+        else:
+            my_dict = {
+                count: 'id',
+                year: 'year',
+                comment: 'comment',
+                revisit: 'revisit'
+            }
+        print(my_dict)
+        return main(my_dict, count)
     elif user_select == "d":
-        delete_entry()
+        main()
     elif user_select == "u":
-        update_entry()
+        main()
     elif user_select == "o":
-        output_log()
+        print(my_dict)
     elif user_select == "s":
-        save_log()
+        conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
+        cursor = conn.cursor()
+        columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in my_dict.keys())
+        rows = ', '.join("'" + str(x).replace('/', '_') + "'" for x in my_dict.values())
+        sql = 'insert into %s (%s) values (%s);' % ("log", columns, rows)
+        cursor.execute(sql)
+        conn.commit()
+        conn.close()
+        main()
     elif user_select == "q":
         quit()
+    else:
+        print("incorrect selection, please try again")
+        main(count)
 
 
-def add_entry():
-    year = input("Please enter year (YYYY format):\n")
-    comment = input("Please enter comment (256 max char limit):\n")
-    revisit = input("Please enter revisit (256 max char limit):\n")
-    count += 1
-    my_dict = {'id': count, 'year': year, 'comment': comment, 'revisit': revisit}
-    print(my_dict)
-    return my_dict, count
-
-
-def delete_entry():
-    display_menu()
-
-
-def update_entry():
-    display_menu()
-
-
-def output_log():
-    display_menu()
-
-
-def save_log():
-    conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
-    cursor = conn.cursor()
-    columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in my_dict.keys())
-    rows = ', '.join("'" + str(x).replace('/', '_') + "'" for x in my_dict.values())
-    sql = 'insert into %s (%s) values (%s);'("log", columns, rows)
-    cursor.execute(sql)
-    conn.commit()
-    conn.close()
-    main()
-
-
-def main():
-    user_select = display_menu()
-    execute_select(user_select)
-    main()
-
-
-main()
+count = 0
+my_dict = dict()
+main(my_dict, count)
