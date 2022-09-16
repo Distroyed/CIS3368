@@ -43,27 +43,33 @@ def main(my_dict, count):
         count += 1
         if 1 in my_dict.keys():
             my_dict2 = {
-                count: 'id',
-                year: 'year',
-                comment: 'comment',
-                revisit: 'revisit'
+                count: [year, comment, revisit]
             }
             my_dict.update(my_dict2)
         else:
             my_dict = {
-                count: 'id',
-                year: 'year',
-                comment: 'comment',
-                revisit: 'revisit'
+                count: [year, comment, revisit]
             }
         print(my_dict)
         return main(my_dict, count)
     elif user_select == "d":
-        main()
+        del_key = int(input("select id to delete (must be numeric):\n"))
+        for key, value in list(my_dict.items()):
+            if key == del_key:
+                del my_dict[key]
+        return main(my_dict, count)
     elif user_select == "u":
-        main()
+        update_key = int(input("Select id to update (must be numeric):\n"))
+        for key, value in list(my_dict.items()):
+            if key == update_key:
+                new_year = input("Please enter new year (YYYY format):\n")
+                new_comment = input("Please enter new comment (256 max char limit):\n")
+                new_revisit = input("Please enter in new revisit (256 max char limit):\n")
+                my_dict[key] = [new_year, new_comment, new_revisit]
+        return main(my_dict, count)
     elif user_select == "o":
         print(my_dict)
+        return main(my_dict, count)
     elif user_select == "s":
         conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
         cursor = conn.cursor()
@@ -73,12 +79,12 @@ def main(my_dict, count):
         cursor.execute(sql)
         conn.commit()
         conn.close()
-        main()
+        return main(my_dict, count)
     elif user_select == "q":
         quit()
     else:
         print("incorrect selection, please try again")
-        main(count)
+        return main(my_dict, count)
 
 
 count = 0
