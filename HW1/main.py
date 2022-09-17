@@ -7,6 +7,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
+# from class
 def create_con(hostname, username, userpw, dbname):
     connection = None
     try:
@@ -22,6 +23,7 @@ def create_con(hostname, username, userpw, dbname):
     return connection
 
 
+# menu function
 def display_menu():
     print("MENU")
     print("a - Add travel log")
@@ -41,6 +43,8 @@ def main(my_dict, count):
         comment = input("Please enter comment (256 max char limit):\n")
         revisit = input("Please enter revisit (256 max char limit):\n")
         count += 1
+        # this is my way of creating an auto-increment key
+        # so that the user can easily identify what needs to be changed or deleted
         if 1 in my_dict.keys():
             my_dict2 = {
                 count: [year, comment, revisit]
@@ -54,12 +58,14 @@ def main(my_dict, count):
         return main(my_dict, count)
     elif user_select == "d":
         del_key = int(input("select id to delete (must be numeric):\n"))
+        # looping through the dictionary to find the right to key to delete
         for key, value in list(my_dict.items()):
             if key == del_key:
                 del my_dict[key]
         return main(my_dict, count)
     elif user_select == "u":
         update_key = int(input("Select id to update (must be numeric):\n"))
+        # looping through the dictionary to find the right to key to change
         for key, value in list(my_dict.items()):
             if key == update_key:
                 new_year = input("Please enter new year (YYYY format):\n")
