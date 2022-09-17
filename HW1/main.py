@@ -73,11 +73,12 @@ def main(my_dict, count):
     elif user_select == "s":
         conn = create_con('cis3368fall.ctbnutpeyolk.us-east-1.rds.amazonaws.com', 'admin', 'admin123', 'cis3368')
         cursor = conn.cursor()
-        columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in my_dict.keys())
-        rows = ', '.join("'" + str(x).replace('/', '_') + "'" for x in my_dict.values())
-        sql = 'insert into %s (%s) values (%s);' % ("log", columns, rows)
-        cursor.execute(sql)
-        conn.commit()
+        for value in my_dict:
+            print(my_dict[value][0])
+            sql = "insert into log (year, comment, revisit) values (%s, %s, %s)"
+            data = (my_dict[value][0], my_dict[value][1], my_dict[value][2])
+            cursor.execute(sql, data)
+            conn.commit()
         conn.close()
         return main(my_dict, count)
     elif user_select == "q":
@@ -85,6 +86,11 @@ def main(my_dict, count):
     else:
         print("incorrect selection, please try again")
         return main(my_dict, count)
+
+
+###############
+#  MAIN BODY  #
+###############
 
 
 count = 0
