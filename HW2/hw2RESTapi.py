@@ -21,7 +21,7 @@
 
 import flask
 from flask import jsonify
-from flask import request
+from flask import request, flash
 from sql import create_connection
 from sql import execute_read_query
 import creds
@@ -52,12 +52,12 @@ def gem_all():
 
 # PUT
 @app.route('/api/gem', methods=['PUT'])
-def add_gem():
+def update_gem():
     my_creds = creds.Creds()
     conn = create_connection(my_creds.conString, my_creds.userName, my_creds.password, my_creds.dbName)
     cursor = conn.cursor()
     request_data = request.get_json()
-    change_id = request['id']
+    change_id = request_data['id']
     change_gem_type = request_data['gemtype']
     change_gem_color = request_data['gemcolor']
     change_carat = request_data['carat']
@@ -73,7 +73,7 @@ def add_gem():
 
 # POST
 @app.route('/api/gem', methods=['POST'])
-def update_gem():
+def add_gem():
     my_creds = creds.Creds()
     conn = create_connection(my_creds.conString, my_creds.userName, my_creds.password, my_creds.dbName)
     cursor = conn.cursor()
