@@ -82,7 +82,7 @@ def update_gem():
     new_gem_color = request_data['gemcolor']
     new_carat = request_data['carat']
     new_price = request_data['price']
-    sql = "insert into gem (gemtype, gemcolor, carat, price) values (%s, %s, %s, %s)"
+    sql = "INSERT INTO gem (gemtype, gemcolor, carat, price) VALUES (%s, %s, %s, %s)"
     data = (new_gem_type, new_gem_color, new_carat, new_price)
     cursor.execute(sql, data)
     conn.commit()
