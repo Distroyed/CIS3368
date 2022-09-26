@@ -99,9 +99,9 @@ def del_gem():
     cursor = conn.cursor()
     request_data = request.get_json()
     del_id = request_data['id']
-    sql = "DELETE FROM gem WHERE id = %s;"
-    data = del_id
-    cursor.execute = (sql, data)
+    sql = "DELETE FROM gem WHERE id=%s"
+    data = (del_id,)
+    cursor.execute(sql, data)
     conn.commit()
     sql = "SELECT * FROM gem"
     gems = execute_read_query(conn, sql)
