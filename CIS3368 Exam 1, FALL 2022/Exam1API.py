@@ -31,6 +31,9 @@ import creds
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+valid_tokens = {
+    '880088'
+}
 
 @app.route('/', methods=['GET'])
 def home():
@@ -91,20 +94,24 @@ def add_watch():
 
 
 # DELETE
-@app.route('/api/watch', methods=['DELETE'])
-def del_watch():
-    my_creds = creds.Creds()
-    conn = create_connection(my_creds.conString, my_creds.userName, my_creds.password, my_creds.dbName)
-    cursor = conn.cursor()
-    request_data = request.get_json()
-    del_id = request_data['id']
-    sql = "DELETE FROM watches WHERE id=%s"
-    data = (del_id,)
-    cursor.execute(sql, data)
-    conn.commit()
-    sql = "SELECT * FROM watches"
-    watches = execute_read_query(conn, sql)
-    return jsonify(watches)
+@app.route('/api/token/<token>/watch', methods=['DELETE'])
+def del_watch(token):
+    for valid_token in valid_tokens:
+        if token == valid_token:
+            my_creds = creds.Creds()
+            conn = create_connection(my_creds.conString, my_creds.userName, my_creds.password, my_creds.dbName)
+            cursor = conn.cursor()
+            request_data = request.get_json()
+            del_id = request_data['id']
+            sql = "DELETE FROM watches WHERE id=%s"
+            data = (del_id,)
+            cursor.execute(sql, data)
+            conn.commit()
+            sql = "SELECT * FROM watches"
+            watches = execute_read_query(conn, sql)
+            return jsonify(watches)
+    return 'INVALID ACCESS TOKEN'
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
