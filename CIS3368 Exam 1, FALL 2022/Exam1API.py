@@ -94,7 +94,7 @@ def add_watch():
 
 
 # DELETE
-@app.route('/api/token/<token>/watch', methods=['DELETE'])
+@app.route('/api/watch/token/<token>', methods=['DELETE'])
 def del_watch(token):
     for valid_token in valid_tokens:
         if token == valid_token:
