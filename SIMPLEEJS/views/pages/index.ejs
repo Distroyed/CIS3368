@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h1>Top Mascots</h1>
+            <p><%= tagline %></p>
+            <ul>
+                <% mascots.forEach(function(mascot) { %>
+                    <li>
+                        <strong><%= mascot.name %></strong>
+                        representing <%= mascot.organization %>, born <%= mascot.birth_year %>
+                    </li>
+                <% }); %>
+            </ul>
+
+            <form action="/processdynamicform" method="post" class="jumbotron">
+                <% mascots.forEach(function(mascot) { %>
+                    <div>
+                        <div><%= mascot.name %></div>
+                        <input type="checkbox" name=<%=mascot.name %>>
+                    </div>
+                <% }); %>
+                <input type="submit">
+            </form>
+
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+</html>

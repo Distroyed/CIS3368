@@ -79,9 +79,12 @@ def usernamepw_auth():
     for au in authorized_users:
         if au['username'] == username and au['password'] == password:
             session_token = au['token']
-            admin_info = au['adminifo']
-            return_info = [au['role'], session_token, admin_info]
-            return jsonify(return_info)
+            admin_info = au['admininfo']
+            returninfo = []
+            returninfo.append(au['role'])
+            returninfo.append(session_token)
+            returninfo.append(admin_info)
+            return jsonify(returninfo)
     return 'SECURITY ERROR'  # never give details on what went wrong
 
 

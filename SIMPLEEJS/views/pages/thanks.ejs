@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+
+    <style>
+        p.round3 {
+          border: 2px solid red;
+          border-radius: 12px;
+          padding: 5px;
+        }
+        p.round2 {
+          border: 2px solid blue;
+          border-radius: 8px;
+          padding: 5px;
+        }
+        </style>
+
+</head>
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main>
+        <!-- print thank you message-->
+        <p> Thank you for submitting the form. You submitted:</p>
+
+        <!-- ALWAYS print the content of the form submission using EJS -->
+        <%=JSON.stringify(body)%>
+
+        <!-- PRINT ONLY IF SELECTED MASCOTS ARE DIRECTED HERE -->
+        <% if (locals.body) { %>
+            <% if (body.Sammy) { %>
+                <p>SAMMY HAS BEEN SELECTED</p>
+            <% }
+            if (body.Tux) { %>
+                <label> TUX HAS BEEN SELECTED </label>
+            <% } %>
+        <% } %>
+
+        <!-- PRINT ONLY IF USERNAME PW FORM IS DIRECTED HERE -->
+        <% if (locals.body) { %>
+            <% if (body.username) { %>
+                <p>Your username is: </p>
+                <p class="round3">
+                    <%= body.username %>
+                </p>
+            <% }
+            if (body.password) { %>
+                <p class="round2">
+                    <label><%= body.password %> </label>
+                </p>
+            <% }
+            if (body.rememberme) { %>
+                <img src="https://support.ezlynx.com/support/wp-content/uploads/2018/10/02182034/checkmark.png">
+            <% } %>
+        <% } %>
+
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+</html>
