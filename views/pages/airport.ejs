@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<br>
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+    <form action="/airport" method="post">
+    <div class="form-group">
+        <label for="airportcode" class="form-label">Airport Code: </label>
+        <input type="text" id="airportcode" name="airportcode" class="form-control"  required>
+    </div>
+        <div class="form-group">
+            <label for="airportname" class="form-label">Airport Name: </label>
+            <input type="text" id="airportname" name="airportname" class="form-control"  required>
+        </div>
+        <div class="form-group">
+            <label for="planemodel" class="form-label">Plane Model: </label>
+            <input type="text" id="planemodel" name="planemodel" class="form-control"  required>
+        </div>
+        <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+    </div>
+
+    <div class="col-md-4">
+    <form action="/airport" method="delete">
+    <div class="form-group">
+        <label for="planeyear" class="form-label">Plane Year: </label>
+        <input type="text" id="planeyear" name="planeyear" class="form-control"  required>
+    </div>
+        <div class="form-group">
+            <label for="planemake" class="form-label">Plane Make: </label>
+            <input type="text" id="planemake" name="planemake" class="form-control"  required>
+        </div>
+        <div class="form-group">
+            <label for="planemodel" class="form-label">Plane Model: </label>
+            <input type="text" id="planemodel" name="planemodel" class="form-control"  required>
+        </div>
+        <button class="btn btn-primary" type="submit">Delete</button>
+    </form>
+    </div>
+</div>
+
+    <br>
+    <br>
+
+</div>
+
+<br>
+
+<form action="/airport" method="put" class="jumbotron">
+    <h1> Update Airport </h1>
+        <% if (locals.airport) { %>
+        <% for(var i = 0; i <= (locals.dictLength-1); i++) { %>
+            <div>
+                <br>
+                <input type="checkbox" name=<%= locals.airport[i].airportcode %>>
+                <strong> Airport Code: </strong>
+                <input type="text" id="changeairportcode" name="changeairportcode" placeholder="<%= locals.airport[i].airportcode %>" value="<%= locals.airport[i].airportcode %>"> <strong> Airport Name: </strong>
+                <input type="text" id="changeairportname" name="changeairportname" placeholder="<%= locals.airport[i].airportname %>" value="<%= locals.airport[i].airportname %>"> <strong> Country: </strong>
+                <input type="text" id="changecountry" name="changecountry" placeholder="<%= locals.airport[i].country %>" value="<%= locals.airport[i].country %>">
+            </div>
+            <% } %>
+            <% } %>
+            <br>
+        <button class="btn btn-primary" type="submit">Update</button>
+</form>
+
+<br>
+<br>
+
+<h1>Results:</h1>
+<form action="/airport" method="get">
+    <table class="table">
+        <thead>
+        <th scope="col">Airport Code</th>
+        <th scope="col">Airport Name</th>
+        <th scope="col">Country</th>
+        </thead>
+        <% if (locals.airport) { %>
+            <% for(var i = 0; i <= (locals.dictLength-1); i++) { %>
+            <tbody>
+                <td>
+                    <%= locals.airport[i].airportcode %>
+                </td>
+                <td>
+                    <%= locals.airport[i].airportname %>
+                </td>
+                <td>
+                    <%= locals.airport[i].country %>
+                </td>
+            </tbody>
+                <% } %>
+            <% } %>
+    </table>
+    <br>
+</form>
+
+<br>
+
+<% if (!locals.airport) { %>
+    <p>NO AIRPORTS TO DISPLAY</p>
+<% } %>
+</form>
+</body>
+</html>

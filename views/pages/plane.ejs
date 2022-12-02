@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<br>
+<br>
+
+<div class="container">
+<!-- Nav tabs-->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a data-toggle="tab" href="#add">Add Plane</a></li>
+  <li><a data-toggle="tab" href="#delete">Delete Plane</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="add" class="tab-pane">
+        <h3>Add Plane</h3>
+        <!--<div class="col-md-4">-->
+            <form action="/airport" method="post">
+                <div class="form-group">
+                    <label for="planeyear" class="form-label">Plane Year: </label>
+                    <input type="text" id="planeyear" name="planeyear" class="form-control"  required>
+                </div>
+                <div class="form-group">
+                    <label for="planemake" class="form-label">Plane Make: </label>
+                    <input type="text" id="planemake" name="planemake" class="form-control"  required>
+                </div>
+                <div class="form-group">
+                    <label for="planemodel" class="form-label">Plane Model: </label>
+                    <input type="text" id="planemodel" name="planemodel" class="form-control"  required>
+                </div>
+                <div class="form-group">
+                    <label for="planecapacity" class="form-label">Plane Capacity: </label>
+                    <input type="text" id="planecapacity" name="planecapacity" class="form-control"  required>
+                </div>
+                <button class="btn btn-primary" type="submit">Add</button>
+            </form>
+        <!--</div>-->
+    </div>
+
+    <div id="delete" class="tab-pane">
+        <h3>Delete Plane</h3>
+        <div class="col-md-4">
+            <form action="/plane" method="delete">
+                <div class="form-group">
+                    <label for="planeyear" class="form-label">Plane Year: </label>
+                    <input type="text" id="planeyear" name="planeyear" class="form-control"  required>
+                </div>
+                <div class="form-group">
+                    <label for="planemake" class="form-label">Plane Make: </label>
+                    <input type="text" id="planemake" name="planemake" class="form-control"  required>
+                </div>
+                <div class="form-group">
+                    <label for="planemodel" class="form-label">Plane Model: </label>
+                    <input type="text" id="planemodel" name="planemodel" class="form-control"  required>
+                </div>
+                <div class="form-group">
+                    <label for="planecapacity" class="form-label">Plane Capacity: </label>
+                    <input type="text" id="planecapacity" name="planecapacity" class="form-control"  required>
+                </div>
+                <button class="btn btn-primary" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<br>
+<br>
+
+</div>
+
+<br>
+
+<form action="/plane" method="put" class="jumbotron">
+    <h1> Update Plane </h1>
+    <form action="/plane" method="get">
+        <% if (locals.plane) { %>
+        <% for(var i = 0; i <= (locals.dictLength-1); i++) { %>
+            <div>
+                <br>
+                <input type="checkbox" name=<%= locals.plane[i].id %>>
+                <strong> Year: </strong>
+                <input type="text" id="changeyear" name="changeyear" placeholder="<%= locals.plane[i].year %>" value="<%= locals.plane[i].year %>"> <strong> Make: </strong>
+                <input type="text" id="changemake" name="changemake" placeholder="<%= locals.plane[i].capacity %>" value="<%= locals.plane[i].capacity %>"> <strong> Model: </strong>
+                <input type="text" id="changemodel" name="changemodel" placeholder="<%= locals.plane[i].model %>" value="<%= locals.plane[i].model %>"> <strong> Capacity: </strong>
+                <input type="text" id="changecapacity" name="changecapacity" placeholder="<%= locals.plane[i].capacity %>" value="<%= locals.plane[i].capacity %>">
+            </div>
+            <% } %>
+            <% } %>
+            </div>
+            <br>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+</form>
+
+
+<h1>Results:</h1>
+<form action="/plane" method="get">
+    <table class="table">
+        <thead>
+        <th scope="col">Year</th>
+        <th scope="col">Make</th>
+        <th scope="col">Model</th>
+        <th scope="col">Capacity</th>
+        </thead>
+        <% if (locals.plane) { %>
+            <% for(var i = 0; i <= (locals.dictLength-1); i++) { %>
+            <tbody>
+                <td>
+                    <%= locals.plane[i].year %>
+                </td>
+                <td>
+                    <%= locals.plane[i].make %>
+                </td>
+                <td>
+                    <%= locals.plane[i].model %>
+                </td>
+                <td>
+                    <%= locals.plane[i].capacity %>
+                </td>
+            </tbody>
+                <% } %>
+            <% } %>
+    </table>
+<br>
+
+<% if (!locals.plane) { %>
+    <p>NO PLANES TO DISPLAY</p>
+<% } %>
+</form>
+</body>
+
+</html>

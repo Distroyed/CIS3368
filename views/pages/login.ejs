@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+<br>
+<h2>Flight Planner Login</h2>
+<br>
+    <main>
+        <div>
+            <form action="/auth" method="POST">
+                <div class="form-group">
+                    <label for="username" class="form-label">User name</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required
+                    autofocus>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" name="password" class="form-control" placeholder="Password"
+                    required>
+                 </div>
+                <br>
+                <br>
+                <input class="btn btn-lg btn-primary btn-block" type="submit">
+            </form>
+          </div>
+        </div>
+      </form>
+    </main>
+</body>
+</html>

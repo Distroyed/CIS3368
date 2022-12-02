@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<br>
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+        <form action="/flight" method="post">
+            <div class="form-group">
+                <label for="depart" class="form-label">Depart Date: </label>
+                <input type="text" id="depart" name="depart" class="form-control"  required>
+            </div>
+            <div class="form-group">
+                <label for="arrival" class="form-label">Arrival Date: </label>
+                <input type="text" id="arrival" name="arrival" class="form-control"  required>
+            </div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+    <form action="/flight" method="post">
+    <div class="form-group">
+        <label for="depart" class="form-label">Depart Date: </label>
+        <input type="text" id="depart" name="depart" class="form-control"  required>
+    </div>
+        <div class="form-group">
+            <label for="arrival" class="form-label">Arrival Date: </label>
+            <input type="text" id="arrival" name="arrival" class="form-control"  required>
+        </div>
+        <button class="btn btn-primary" type="submit">Delete</button>
+    </form>
+    </div>
+</div>
+
+<br>
+<br>
+
+<h1>Results:</h1>
+<form action="/plane" method="get">
+    <table class="table">
+        <thead>
+        <th scope="col">Date</th>
+        <th scope="col">Arrival Airport</th>
+        <th scope="col">Departing Airport</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Make</th>
+        <th scope="col">Model</th>
+        </thead>
+        <% if (locals.flight) { %>
+            <% for(var i = 0; i <= (locals.dictLength-1); i++) { %>
+            <tbody>
+            <td>
+                <%= locals.flight[i].date %>
+            </td>
+            <td>
+                <%= locals.flight[i].ArrivalAirport %>
+            </td>
+            <td>
+                <%= locals.flight[i].DepartingAirport %>
+            </td>
+            <td>
+                <%= locals.flight[i].capacity %>
+            </td>
+            <td>
+                <%= locals.flight[i].make %>
+            </td>
+            <td>
+                <%= locals.flight[i].model %>
+            </td>
+            </tbody>
+                <% } %>
+            <% } %>
+    </table>
+    <br>
+</form>
+
+<br>
+
+<% if (!locals.airport) { %>
+    <p>NO AIRPORTS TO DISPLAY</p>
+<% } %>
+</form>
+    </form>
+</div>
+</body>
+</html>
